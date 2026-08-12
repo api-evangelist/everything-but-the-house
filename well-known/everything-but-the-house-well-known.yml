@@ -1,0 +1,145 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTP probes of every Everything But The House host
+name: Everything But The House — /.well-known/ probe
+description: >-
+  Every /.well-known/ path probed across the four hosts Everything But The House
+  operates. Only one path returned a real document: the stock Salesforce Experience
+  Cloud OpenID Connect discovery document served by the EBTH help-center community at
+  support.ebth.com. Every other path missed. status.ebth.com is an Uptime Kuma
+  single-page app that answers HTTP 200 with the same 2,444-byte HTML shell for every
+  unmatched path — those 200s are soft-404s and are recorded as misses, not hits.
+
+hosts:
+- host: www.ebth.com
+  note: Marketing + marketplace site. Returns a real 404 (37,335-byte branded error page) for every well-known path.
+- host: api.ebth.com
+  note: >-
+    Resolves and answers, but every path returns HTTP 404 with the Envoy body
+    "fault filter abort". No API is served here.
+- host: status.ebth.com
+  note: >-
+    Uptime Kuma status page. SOFT-200 CATCH-ALL — every unmatched path returns HTTP 200
+    with the same HTML SPA shell. Treated as a miss on every path.
+- host: support.ebth.com
+  note: >-
+    Salesforce Experience Cloud help-center community (CNAME to ebth.my.site.com).
+    Returns HTTP 401 for most well-known paths and one real 200.
+
+probes:
+- host: www.ebth.com
+  path: /.well-known/security.txt
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/openid-configuration
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/api-catalog
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/ai-plugin.json
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/agent-card.json
+  status: 404
+  hit: false
+- host: www.ebth.com
+  path: /.well-known/agent.json
+  status: 404
+  hit: false
+- host: api.ebth.com
+  path: /.well-known/security.txt
+  status: 404
+  hit: false
+  note: Body is "fault filter abort" (Envoy).
+- host: api.ebth.com
+  path: /.well-known/openid-configuration
+  status: 404
+  hit: false
+- host: api.ebth.com
+  path: /.well-known/agent-card.json
+  status: 404
+  hit: false
+- host: api.ebth.com
+  path: /.well-known/agent.json
+  status: 404
+  hit: false
+- host: status.ebth.com
+  path: /.well-known/security.txt
+  status: 200
+  hit: false
+  note: SOFT-404 — HTML SPA shell, not a document. Rejected.
+- host: status.ebth.com
+  path: /.well-known/agent-card.json
+  status: 200
+  hit: false
+  note: SOFT-404 — HTML SPA shell, not an AgentCard. Rejected.
+- host: status.ebth.com
+  path: /.well-known/openid-configuration
+  status: 200
+  hit: false
+  note: SOFT-404 — HTML SPA shell. Rejected.
+- host: support.ebth.com
+  path: /.well-known/security.txt
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/openid-configuration
+  status: 200
+  hit: true
+  content_type: application/json;charset=UTF-8
+  file: well-known/everything-but-the-house-support-openid-configuration.json
+  note: >-
+    REAL DOCUMENT. Stock Salesforce Experience Cloud OIDC discovery for the EBTH support
+    community — issuer https://support.ebth.com, authorization/token/userinfo/jwks
+    endpoints under /services/oauth2/. The scopes it advertises (api, chatter_api,
+    cdp_api, wave_api, pardot_api, mcp_api, …) are Salesforce platform scopes shipped by
+    the host platform, NOT scopes Everything But The House designed or documents. It
+    authenticates the help-center community; it is not a product API for EBTH's
+    marketplace, and no EBTH documentation references it.
+- host: support.ebth.com
+  path: /.well-known/oauth-authorization-server
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/oauth-protected-resource
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/agent-card.json
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/agent.json
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/api-catalog
+  status: 401
+  hit: false
+- host: support.ebth.com
+  path: /.well-known/ai-plugin.json
+  status: 401
+  hit: false
+
+summary:
+  hosts_probed: 4
+  paths_probed: 36
+  real_documents: 1
+  security_txt: false
+  agent_card: false
+  api_catalog: false
+  ai_plugin: false
+  openid_configuration: true

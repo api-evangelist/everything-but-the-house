@@ -1,0 +1,73 @@
+generated: '2026-08-12'
+method: probed
+source: https://status.ebth.com/status/public
+name: Everything But The House — lifecycle and operational posture
+description: >-
+  Everything But The House publishes no API, so there is no API versioning, deprecation
+  or sunset policy to record. The one operational surface it does run for machines is a
+  public Uptime Kuma status page at status.ebth.com, which serves a real JSON endpoint
+  alongside the human page.
+
+status_page:
+  published: true
+  url: https://status.ebth.com/status/public
+  platform: Uptime Kuma (self-hosted)
+  title: EBTH Status
+  machine_readable:
+    url: https://status.ebth.com/api/status-page/public
+    http_status: 200
+    content_type: application/json; charset=utf-8
+    note: >-
+      Uptime Kuma's public status-page JSON. Returns config + publicGroupList; at probe
+      time the page listed one group, "Services", containing two monitor groups —
+      "ebth.com" and "Cloudflare" — with no active incident and no scheduled maintenance.
+  heartbeat_endpoint:
+    url: https://status.ebth.com/api/status-page/heartbeat/status
+    http_status: 200
+    note: Returned empty heartbeatList/uptimeList for the "status" slug; the published slug is "public".
+  soft_404_warning: >-
+    status.ebth.com is a single-page app that answers HTTP 200 with the same HTML shell
+    for any unmatched path. /api/v2/status.json and /api/v2/summary.json both return 200
+    but serve HTML, not the Statuspage.io JSON their names imply. Do not treat them as
+    documents.
+
+versioning:
+  policy_published: false
+  note: No API and no published API versioning scheme.
+
+deprecation:
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  note: >-
+    No deprecation or sunset policy is published. RFC 8594 Sunset/Deprecation headers
+    could not be evaluated because there is no public API to observe.
+
+sla:
+  published: false
+  note: >-
+    No uptime or support SLA is published. The consumer-facing commitment EBTH does
+    publish is the "EBTH Promise" satisfaction guarantee on the marketplace, which is a
+    goods/consignment guarantee, not a service-level agreement.
+
+changelog:
+  published: false
+  note: >-
+    No dated product or API changelog. Company news is published as press releases at
+    https://www.ebth.com/press and editorial at https://www.ebth.com/stories; neither is
+    versioned or dated as a changelog and neither carries a feed (/stories/feed 404,
+    /stories.rss 500).
+
+evidence:
+- url: https://status.ebth.com/
+  status: 200
+  note: Redirects to /status/public.
+- url: https://status.ebth.com/api/status-page/public
+  status: 200
+- url: https://status.ebth.com/api/v2/status.json
+  status: 200
+  note: Soft-200 — serves HTML, not JSON.
+- url: https://www.ebth.com/stories.rss
+  status: 500
+- url: https://www.ebth.com/press
+  status: 200
