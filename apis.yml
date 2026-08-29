@@ -12,6 +12,17 @@ description: 'Everything But The House (EBTH) is a Blue Ash, Ohio online estate 
   Ruby gems, its mobile apps are webview wrappers around ebth.com, and the only GraphQL
   endpoint on the site is an internal one that robots.txt disallows. The single machine-facing
   surface it does operate is a public Uptime Kuma status page at status.ebth.com.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://imgix-prod.ebth.com/2022/05/25/12/45/22/083e30c5-1277-4c28-90a3-2c3057d8309e/Killer.jpg?ixlib=rb-3.1.0&w=781&h=855&fit=max&crop=&auto=format
 url: https://raw.githubusercontent.com/api-evangelist/everything-but-the-house/refs/heads/main/apis.yml
 x-type: company
